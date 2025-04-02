@@ -13,7 +13,6 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/config";
 import globals from "@/styles/globals.css?url";
 import { createServerFn } from "@tanstack/react-start";
 
-// Server tarafında çalışacak dil belirleme fonksiyonu
 export const getLanguage = createServerFn({
   method: "GET",
 })
@@ -45,6 +44,9 @@ export const getLanguage = createServerFn({
         : langFromHeader
           ? langFromHeader
           : DEFAULT_LANGUAGE;
+
+    // log phase.
+    console.log("RUN", lang);
 
     // 5. Dil parametresi ve URL verilerini döndür
     return {
