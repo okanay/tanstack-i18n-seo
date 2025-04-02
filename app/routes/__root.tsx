@@ -3,14 +3,51 @@ import {
   Outlet,
   Scripts,
   createRootRoute,
+  redirect,
 } from "@tanstack/react-router";
+
+import { getHeaders } from "@tanstack/react-start/server";
+import { getLanguageFromCookie, getLanguageFromHeader } from "@/i18n/helpers";
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/config";
 
 import globals from "@/styles/globals.css?url";
 
 export const Route = createRootRoute({
   loader: async (ctx) => {
+    const headers = getHeaders();
+
+    // 1. URL'den dil parametresini kontrol et
+    const pathSegments = ctx.location.pathname.split("/");
+    const langFromUrl = pathSegments[1];
+    const isValidLangFromUrl = SUPPORTED_LANGUAGES.includes(
+      langFromUrl as Language,
+    );
+
+    // 2. Cookie'den dil tercihini kontrol et
+    const cookies = headers["cookie"];
+    const langFromCookie = getLanguageFromCookie(cookies || "");
+
+    // 3. Accept-Language header'ını kontrol et
+    const acceptLanguage = headers["accept-language"];
+    const langFromHeader = getLanguageFromHeader(acceptLanguage || "");
+
+    // 4. Öncelik sırasına göre dil belirle
+    const lang = isValidLangFromUrl
+      ? langFromUrl
+      : langFromCookie
+        ? langFromCookie
+        : langFromHeader
+          ? langFromHeader
+          : DEFAULT_LANGUAGE;
+
+    // 5. URL'de dil parametresi yoksa, yönlendirme yap
+    if (!isValidLangFromUrl && pathSegments.length > 1) {
+      // Örn: /about --> /tr/about
+      return redirect({ to: `/${lang}${ctx.location.pathname}`, throw: true });
+    }
+
     return {
-      lang: "tr-TR",
+      lang,
     };
   },
   head: ({ loaderData: {} }) => {
@@ -25,10 +62,6 @@ export const Route = createRootRoute({
           type: "application/xml",
           title: "sitemap",
           href: `/api/sitemap`,
-        },
-        {
-          rel: "manifest",
-          href: "/site.webmanifest",
         },
         {
           rel: "icon",

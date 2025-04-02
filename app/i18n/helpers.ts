@@ -18,6 +18,8 @@ export function getLanguageFromCookie(cookieHeader: string): Language | null {
   const cookies = parseCookies(cookieHeader);
   const langFromCookie = cookies[I18N_COOKIE_NAME];
 
+  if (!langFromCookie) return null;
+
   return SUPPORTED_LANGUAGES.includes(langFromCookie as Language)
     ? (langFromCookie as Language)
     : null;
@@ -28,12 +30,13 @@ function parseCookies(cookieString: string): Record<string, string> {
 
   if (!cookieString) return cookies;
 
-  cookieString.split(";").forEach((pair) => {
+  const cookiePairs = cookieString.split(";");
+  for (const pair of cookiePairs) {
     const [key, value] = pair.trim().split("=");
     if (key && value) {
       cookies[key] = decodeURIComponent(value);
     }
-  });
+  }
 
   return cookies;
 }

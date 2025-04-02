@@ -11,105 +11,186 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as languagesRouteImport } from './routes/(languages)/route'
-import { Route as languagesIndexImport } from './routes/(languages)/index'
-import { Route as languagesNotFoundImport } from './routes/(languages)/not-found'
+import { Route as LangRouteImport } from './routes/$lang/route'
+import { Route as LangIndexImport } from './routes/$lang/index'
+import { Route as LangNotFoundImport } from './routes/$lang/not-found'
+import { Route as LangBlogRouteImport } from './routes/$lang/blog.route'
+import { Route as LangBlogIndexImport } from './routes/$lang/blog.index'
+import { Route as LangBlogSlugImport } from './routes/$lang/blog.$slug'
 
 // Create/Update Routes
 
-const languagesRouteRoute = languagesRouteImport.update({
-  id: '/(languages)',
+const LangRouteRoute = LangRouteImport.update({
+  id: '/$lang',
+  path: '/$lang',
   getParentRoute: () => rootRoute,
 } as any)
 
-const languagesIndexRoute = languagesIndexImport.update({
+const LangIndexRoute = LangIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => languagesRouteRoute,
+  getParentRoute: () => LangRouteRoute,
 } as any)
 
-const languagesNotFoundRoute = languagesNotFoundImport.update({
+const LangNotFoundRoute = LangNotFoundImport.update({
   id: '/not-found',
   path: '/not-found',
-  getParentRoute: () => languagesRouteRoute,
+  getParentRoute: () => LangRouteRoute,
+} as any)
+
+const LangBlogRouteRoute = LangBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => LangRouteRoute,
+} as any)
+
+const LangBlogIndexRoute = LangBlogIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LangBlogRouteRoute,
+} as any)
+
+const LangBlogSlugRoute = LangBlogSlugImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LangBlogRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(languages)': {
-      id: '/(languages)'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof languagesRouteImport
+    '/$lang': {
+      id: '/$lang'
+      path: '/$lang'
+      fullPath: '/$lang'
+      preLoaderRoute: typeof LangRouteImport
       parentRoute: typeof rootRoute
     }
-    '/(languages)/not-found': {
-      id: '/(languages)/not-found'
-      path: '/not-found'
-      fullPath: '/not-found'
-      preLoaderRoute: typeof languagesNotFoundImport
-      parentRoute: typeof languagesRouteImport
+    '/$lang/blog': {
+      id: '/$lang/blog'
+      path: '/blog'
+      fullPath: '/$lang/blog'
+      preLoaderRoute: typeof LangBlogRouteImport
+      parentRoute: typeof LangRouteImport
     }
-    '/(languages)/': {
-      id: '/(languages)/'
+    '/$lang/not-found': {
+      id: '/$lang/not-found'
+      path: '/not-found'
+      fullPath: '/$lang/not-found'
+      preLoaderRoute: typeof LangNotFoundImport
+      parentRoute: typeof LangRouteImport
+    }
+    '/$lang/': {
+      id: '/$lang/'
       path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof languagesIndexImport
-      parentRoute: typeof languagesRouteImport
+      fullPath: '/$lang/'
+      preLoaderRoute: typeof LangIndexImport
+      parentRoute: typeof LangRouteImport
+    }
+    '/$lang/blog/$slug': {
+      id: '/$lang/blog/$slug'
+      path: '/$slug'
+      fullPath: '/$lang/blog/$slug'
+      preLoaderRoute: typeof LangBlogSlugImport
+      parentRoute: typeof LangBlogRouteImport
+    }
+    '/$lang/blog/': {
+      id: '/$lang/blog/'
+      path: '/'
+      fullPath: '/$lang/blog/'
+      preLoaderRoute: typeof LangBlogIndexImport
+      parentRoute: typeof LangBlogRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface languagesRouteRouteChildren {
-  languagesNotFoundRoute: typeof languagesNotFoundRoute
-  languagesIndexRoute: typeof languagesIndexRoute
+interface LangBlogRouteRouteChildren {
+  LangBlogSlugRoute: typeof LangBlogSlugRoute
+  LangBlogIndexRoute: typeof LangBlogIndexRoute
 }
 
-const languagesRouteRouteChildren: languagesRouteRouteChildren = {
-  languagesNotFoundRoute: languagesNotFoundRoute,
-  languagesIndexRoute: languagesIndexRoute,
+const LangBlogRouteRouteChildren: LangBlogRouteRouteChildren = {
+  LangBlogSlugRoute: LangBlogSlugRoute,
+  LangBlogIndexRoute: LangBlogIndexRoute,
 }
 
-const languagesRouteRouteWithChildren = languagesRouteRoute._addFileChildren(
-  languagesRouteRouteChildren,
+const LangBlogRouteRouteWithChildren = LangBlogRouteRoute._addFileChildren(
+  LangBlogRouteRouteChildren,
+)
+
+interface LangRouteRouteChildren {
+  LangBlogRouteRoute: typeof LangBlogRouteRouteWithChildren
+  LangNotFoundRoute: typeof LangNotFoundRoute
+  LangIndexRoute: typeof LangIndexRoute
+}
+
+const LangRouteRouteChildren: LangRouteRouteChildren = {
+  LangBlogRouteRoute: LangBlogRouteRouteWithChildren,
+  LangNotFoundRoute: LangNotFoundRoute,
+  LangIndexRoute: LangIndexRoute,
+}
+
+const LangRouteRouteWithChildren = LangRouteRoute._addFileChildren(
+  LangRouteRouteChildren,
 )
 
 export interface FileRoutesByFullPath {
-  '/': typeof languagesIndexRoute
-  '/not-found': typeof languagesNotFoundRoute
+  '/$lang': typeof LangRouteRouteWithChildren
+  '/$lang/blog': typeof LangBlogRouteRouteWithChildren
+  '/$lang/not-found': typeof LangNotFoundRoute
+  '/$lang/': typeof LangIndexRoute
+  '/$lang/blog/$slug': typeof LangBlogSlugRoute
+  '/$lang/blog/': typeof LangBlogIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/not-found': typeof languagesNotFoundRoute
-  '/': typeof languagesIndexRoute
+  '/$lang/not-found': typeof LangNotFoundRoute
+  '/$lang': typeof LangIndexRoute
+  '/$lang/blog/$slug': typeof LangBlogSlugRoute
+  '/$lang/blog': typeof LangBlogIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/(languages)': typeof languagesRouteRouteWithChildren
-  '/(languages)/not-found': typeof languagesNotFoundRoute
-  '/(languages)/': typeof languagesIndexRoute
+  '/$lang': typeof LangRouteRouteWithChildren
+  '/$lang/blog': typeof LangBlogRouteRouteWithChildren
+  '/$lang/not-found': typeof LangNotFoundRoute
+  '/$lang/': typeof LangIndexRoute
+  '/$lang/blog/$slug': typeof LangBlogSlugRoute
+  '/$lang/blog/': typeof LangBlogIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/not-found'
+  fullPaths:
+    | '/$lang'
+    | '/$lang/blog'
+    | '/$lang/not-found'
+    | '/$lang/'
+    | '/$lang/blog/$slug'
+    | '/$lang/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/not-found' | '/'
-  id: '__root__' | '/(languages)' | '/(languages)/not-found' | '/(languages)/'
+  to: '/$lang/not-found' | '/$lang' | '/$lang/blog/$slug' | '/$lang/blog'
+  id:
+    | '__root__'
+    | '/$lang'
+    | '/$lang/blog'
+    | '/$lang/not-found'
+    | '/$lang/'
+    | '/$lang/blog/$slug'
+    | '/$lang/blog/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  languagesRouteRoute: typeof languagesRouteRouteWithChildren
+  LangRouteRoute: typeof LangRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  languagesRouteRoute: languagesRouteRouteWithChildren,
+  LangRouteRoute: LangRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -122,23 +203,40 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/(languages)"
+        "/$lang"
       ]
     },
-    "/(languages)": {
-      "filePath": "(languages)/route.tsx",
+    "/$lang": {
+      "filePath": "$lang/route.tsx",
       "children": [
-        "/(languages)/not-found",
-        "/(languages)/"
+        "/$lang/blog",
+        "/$lang/not-found",
+        "/$lang/"
       ]
     },
-    "/(languages)/not-found": {
-      "filePath": "(languages)/not-found.tsx",
-      "parent": "/(languages)"
+    "/$lang/blog": {
+      "filePath": "$lang/blog.route.tsx",
+      "parent": "/$lang",
+      "children": [
+        "/$lang/blog/$slug",
+        "/$lang/blog/"
+      ]
     },
-    "/(languages)/": {
-      "filePath": "(languages)/index.tsx",
-      "parent": "/(languages)"
+    "/$lang/not-found": {
+      "filePath": "$lang/not-found.tsx",
+      "parent": "/$lang"
+    },
+    "/$lang/": {
+      "filePath": "$lang/index.tsx",
+      "parent": "/$lang"
+    },
+    "/$lang/blog/$slug": {
+      "filePath": "$lang/blog.$slug.tsx",
+      "parent": "/$lang/blog"
+    },
+    "/$lang/blog/": {
+      "filePath": "$lang/blog.index.tsx",
+      "parent": "/$lang/blog"
     }
   }
 }
