@@ -1,0 +1,7 @@
+{
+  "title": "React i18n'e Hoş Geldiniz",
+  "currentLanguage": "Türkçe",
+  "notFoundTitle": "Sayfa Bulunamadı",
+  "notFoundDescription": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+  "backToHome": "Ana Sayfaya Dön"
+}

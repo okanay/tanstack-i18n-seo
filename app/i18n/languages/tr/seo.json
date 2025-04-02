@@ -1,0 +1,18 @@
+{
+  "root": {
+    "title": "React i18n'e Hoş Geldiniz",
+    "description": "Bu kök bölümüdür"
+  },
+  "not-found": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa bulunamadı"
+  },
+  "profile": {
+    "title": "React i18n Profili",
+    "description": "React i18n profili hakkında bilgi"
+  },
+  "main": {
+    "title": "Ana Bölüm",
+    "description": "Bu ana bölümdür"
+  }
+}

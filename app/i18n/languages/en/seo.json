@@ -1,0 +1,18 @@
+{
+  "root": {
+    "title": "Welcome to React i18n",
+    "description": "This is the root section"
+  },
+  "not-found": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for was not found"
+  },
+  "profile": {
+    "title": "Profile Page React i18n",
+    "description": "Information about Profile Page React i18n"
+  },
+  "main": {
+    "title": "Main Section",
+    "description": "This is the main section"
+  }
+}

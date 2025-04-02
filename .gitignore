@@ -1,0 +1,25 @@
+# Local
+.DS_Store
+*.local
+*.log*
+
+# env
+.env
+.env.local
+.env.production
+.env.development
+
+# Dist
+node_modules
+dist/
+archives
+.vinxi
+.output
+.vercel
+.netlify
+.wrangler
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
