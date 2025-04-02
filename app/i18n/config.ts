@@ -1,3 +1,5 @@
+export type Language = "tr" | "en" | string;
+
 export const LANGUAGES: Record<string, Language> = {
   TURKISH: "tr",
   ENGLISH: "en",
