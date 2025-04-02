@@ -8,10 +8,6 @@ dotenv.config();
 export default defineConfig({
   server: {
     preset: process.env.REACT_PRESET,
-    prerender: {
-      routes: ["/"],
-      crawlLinks: true,
-    },
     routeRules: {
       "/robots.txt": {
         redirect: {
