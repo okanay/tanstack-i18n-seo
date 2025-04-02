@@ -6,29 +6,9 @@ import {
   redirect,
 } from "@tanstack/react-router";
 
-import { getHeaders } from "@tanstack/react-start/server";
-import { getLanguageFromCookie, getLanguageFromHeader } from "@/i18n/helpers";
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/config";
-
 import globals from "@/styles/globals.css?url";
-import { createServerFn } from "@tanstack/react-start";
-
-export const detectLanguage = createServerFn({
-  method: "GET",
-}).handler(async () => {
-  const headers = getHeaders();
-
-  // Cookie'den dil tercihini kontrol et
-  const cookies = headers["cookie"];
-  const langFromCookie = getLanguageFromCookie(cookies || "");
-
-  // Accept-Language header'ını kontrol et
-  const acceptLanguage = headers["accept-language"];
-  const langFromHeader = getLanguageFromHeader(acceptLanguage || "");
-
-  // Öncelik sırasına göre dil belirle
-  return langFromCookie || langFromHeader || DEFAULT_LANGUAGE;
-});
+import { detectLanguage } from "@/i18n/action";
+import { SUPPORTED_LANGUAGES } from "@/i18n/config";
 
 export const Route = createRootRoute({
   loader: async (ctx) => {
@@ -39,8 +19,7 @@ export const Route = createRootRoute({
       langParam as Language,
     );
 
-    // Eğer URL kök dizin ise veya geçerli bir dil parametresi yoksa
-    // server fonksiyonunu çağırarak dil tespiti yap
+    // Eğer URL içinde geçerli bir dil parametresi yoksa
     if (ctx.location.pathname === "/" || !isValidLangParam) {
       const detectedLanguage = await detectLanguage();
 
@@ -63,12 +42,12 @@ export const Route = createRootRoute({
       return {
         lang: detectedLanguage,
       };
+    } else {
+      // Geçerli bir dil parametresi varsa, direkt kullan
+      return {
+        lang: langParam as Language,
+      };
     }
-
-    // Geçerli bir dil parametresi varsa, direkt kullan
-    return {
-      lang: langParam as Language,
-    };
   },
   head: ({ loaderData: {} }) => {
     return {
