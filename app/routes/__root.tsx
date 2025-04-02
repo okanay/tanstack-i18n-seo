@@ -11,13 +11,19 @@ import { getLanguageFromCookie, getLanguageFromHeader } from "@/i18n/helpers";
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/config";
 
 import globals from "@/styles/globals.css?url";
+import { createServerFn } from "@tanstack/react-start";
 
-export const Route = createRootRoute({
-  loader: async (ctx) => {
+// Server tarafında çalışacak dil belirleme fonksiyonu
+export const getLanguage = createServerFn({
+  method: "GET",
+})
+  .validator((location: { pathname: string }) => location)
+  .handler(async (ctx) => {
+    const location = ctx.data;
     const headers = getHeaders();
 
     // 1. URL'den dil parametresini kontrol et
-    const pathSegments = ctx.location.pathname.split("/");
+    const pathSegments = location.pathname.split("/");
     const langFromUrl = pathSegments[1];
     const isValidLangFromUrl = SUPPORTED_LANGUAGES.includes(
       langFromUrl as Language,
@@ -40,12 +46,29 @@ export const Route = createRootRoute({
           ? langFromHeader
           : DEFAULT_LANGUAGE;
 
-    // 5. URL'de dil parametresi yoksa, yönlendirme yap
+    // 5. Dil parametresi ve URL verilerini döndür
+    return {
+      lang,
+      isValidLangFromUrl,
+      pathSegments,
+    };
+  });
+
+export const Route = createRootRoute({
+  loader: async (ctx) => {
+    const { lang, isValidLangFromUrl, pathSegments } = await getLanguage({
+      data: ctx.location,
+    });
+
     if (!isValidLangFromUrl && pathSegments.length > 1) {
-      // Örn: /about --> /tr/about
-      return redirect({ to: `/${lang}${ctx.location.pathname}`, throw: true });
+      // Mevcut path'i al ve dil öneki ekle
+      const currentPath = ctx.location.pathname;
+      // Eğer URL'de dil bölümü yoksa direkt ekle
+      const redirectPath = `/${lang}${currentPath}`;
+      return redirect({ to: redirectPath });
     }
 
+    // URL'de geçerli bir dil varsa, onu kullan
     return {
       lang,
     };

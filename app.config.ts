@@ -2,8 +2,16 @@ import { defineConfig } from "@tanstack/react-start/config";
 import tsConfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 export default defineConfig({
   server: {
+    preset: process.env.REACT_PRESET,
+    prerender: {
+      routes: ["/"],
+      crawlLinks: true,
+    },
     routeRules: {
       "/robots.txt": {
         redirect: {
@@ -17,11 +25,6 @@ export default defineConfig({
           statusCode: 301,
         },
       },
-    },
-    preset: process.env.VITE_PRESET,
-    prerender: {
-      routes: ["/"],
-      crawlLinks: true,
     },
   },
   vite: {
