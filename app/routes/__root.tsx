@@ -13,66 +13,61 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/i18n/config";
 import globals from "@/styles/globals.css?url";
 import { createServerFn } from "@tanstack/react-start";
 
-export const getLanguage = createServerFn({
+export const detectLanguage = createServerFn({
   method: "GET",
-})
-  .validator((location: { pathname: string }) => location)
-  .handler(async (ctx) => {
-    const location = ctx.data;
-    const headers = getHeaders();
+}).handler(async () => {
+  const headers = getHeaders();
 
-    // 1. URL'den dil parametresini kontrol et
-    const pathSegments = location.pathname.split("/");
-    const langFromUrl = pathSegments[1];
-    const isValidLangFromUrl = SUPPORTED_LANGUAGES.includes(
-      langFromUrl as Language,
-    );
+  // Cookie'den dil tercihini kontrol et
+  const cookies = headers["cookie"];
+  const langFromCookie = getLanguageFromCookie(cookies || "");
 
-    // 2. Cookie'den dil tercihini kontrol et
-    const cookies = headers["cookie"];
-    const langFromCookie = getLanguageFromCookie(cookies || "");
+  // Accept-Language header'ını kontrol et
+  const acceptLanguage = headers["accept-language"];
+  const langFromHeader = getLanguageFromHeader(acceptLanguage || "");
 
-    // 3. Accept-Language header'ını kontrol et
-    const acceptLanguage = headers["accept-language"];
-    const langFromHeader = getLanguageFromHeader(acceptLanguage || "");
-
-    // 4. Öncelik sırasına göre dil belirle
-    const lang = isValidLangFromUrl
-      ? langFromUrl
-      : langFromCookie
-        ? langFromCookie
-        : langFromHeader
-          ? langFromHeader
-          : DEFAULT_LANGUAGE;
-
-    // log phase.
-    console.log("RUN", lang);
-
-    // 5. Dil parametresi ve URL verilerini döndür
-    return {
-      lang,
-      isValidLangFromUrl,
-      pathSegments,
-    };
-  });
+  // Öncelik sırasına göre dil belirle
+  return langFromCookie || langFromHeader || DEFAULT_LANGUAGE;
+});
 
 export const Route = createRootRoute({
   loader: async (ctx) => {
-    const { lang, isValidLangFromUrl, pathSegments } = await getLanguage({
-      data: ctx.location,
-    });
+    // URL'den dil parametresini kontrol et
+    const pathSegments = ctx.location.pathname.split("/");
+    const langParam = pathSegments[1];
+    const isValidLangParam = SUPPORTED_LANGUAGES.includes(
+      langParam as Language,
+    );
 
-    if (!isValidLangFromUrl && pathSegments.length > 1) {
-      // Mevcut path'i al ve dil öneki ekle
-      const currentPath = ctx.location.pathname;
-      // Eğer URL'de dil bölümü yoksa direkt ekle
-      const redirectPath = `/${lang}${currentPath}`;
-      return redirect({ to: redirectPath });
+    // Eğer URL kök dizin ise veya geçerli bir dil parametresi yoksa
+    // server fonksiyonunu çağırarak dil tespiti yap
+    if (ctx.location.pathname === "/" || !isValidLangParam) {
+      const detectedLanguage = await detectLanguage();
+
+      // Kök dizin ise dil yönlendirmesi yap
+      if (ctx.location.pathname === "/") {
+        throw redirect({
+          to: `/${detectedLanguage}`,
+        });
+      }
+
+      // Geçersiz dil parametresi ise ve başka bir path ise
+      // Aynı pathi doğru dille yönlendir
+      if (!isValidLangParam && pathSegments.length > 1) {
+        const restOfPath = pathSegments.slice(1).join("/");
+        throw redirect({
+          to: `/${detectedLanguage}/${restOfPath}`,
+        });
+      }
+
+      return {
+        lang: detectedLanguage,
+      };
     }
 
-    // URL'de geçerli bir dil varsa, onu kullan
+    // Geçerli bir dil parametresi varsa, direkt kullan
     return {
-      lang,
+      lang: langParam as Language,
     };
   },
   head: ({ loaderData: {} }) => {
