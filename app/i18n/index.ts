@@ -4,7 +4,6 @@ import {
   FALLBACK_LANGUAGE,
   I18N_COOKIE_NAME,
   I18N_STORAGE_KEY,
-  Language,
 } from "./config";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";

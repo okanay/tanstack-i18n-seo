@@ -1,14 +1,9 @@
-import {
-  HeadContent,
-  Outlet,
-  Scripts,
-  createRootRoute,
-  redirect,
-} from "@tanstack/react-router";
-
-import globals from "@/styles/globals.css?url";
 import { detectLanguage } from "@/i18n/action";
 import { SUPPORTED_LANGUAGES } from "@/i18n/config";
+import { seoTranslations } from "@/i18n/languages";
+import LanguageProvider from "@/i18n/provider";
+import { HeadContent, Outlet, Scripts, createRootRoute, redirect } from "@tanstack/react-router"; // prettier-ignore
+import globals from "@/styles/globals.css?url";
 
 export const Route = createRootRoute({
   loader: async (ctx) => {
@@ -49,7 +44,9 @@ export const Route = createRootRoute({
       };
     }
   },
-  head: ({ loaderData: {} }) => {
+  head: ({ loaderData: { lang } }) => {
+    const seoData = seoTranslations[lang];
+
     return {
       links: [
         {
@@ -86,12 +83,11 @@ export const Route = createRootRoute({
           content: "#000000",
         },
         {
-          title: "TanStack Start",
+          title: seoData.root.title,
         },
         {
           name: "description",
-          content:
-            "TanStack Start is a starter template for building web applications with TanStack tools.",
+          content: seoData.root.description,
         },
       ],
     };
@@ -116,9 +112,13 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
 }
 
 function RootComponent() {
+  const { lang } = Route.useLoaderData();
+
   return (
     <RootDocument>
-      <Outlet />
+      <LanguageProvider serverLanguage={lang}>
+        <Outlet />
+      </LanguageProvider>
     </RootDocument>
   );
 }
