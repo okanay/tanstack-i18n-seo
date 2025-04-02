@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/not-found")({
+export const Route = createFileRoute("/(languages)/not-found")({
   component: DefaultNotFound,
   head: () => ({
     meta: [

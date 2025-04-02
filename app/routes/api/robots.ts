@@ -25,7 +25,8 @@ export const APIRoute = createAPIFileRoute("/api/robots")({
     return new Response(robotsTxt, {
       headers: {
         "Content-Type": "text/plain",
-        "Cache-Control": "public, max-age=3600",
+        "Cache-Control":
+          "public, max-age=14400, s-maxage=86400, stale-while-revalidate=43200",
       },
       status: 200,
     });

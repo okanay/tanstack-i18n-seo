@@ -19,7 +19,8 @@ export const APIRoute = createAPIFileRoute("/api/sitemap")({
     return new Response(sitemapXml, {
       headers: {
         "Content-Type": "text/xml; charset=utf-8",
-        "Cache-Control": "public, max-age=3600",
+        "Cache-Control":
+          "public, max-age=14400, s-maxage=86400, stale-while-revalidate=43200",
         "Content-Disposition": "inline",
       },
       status: 200,

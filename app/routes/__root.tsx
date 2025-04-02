@@ -4,11 +4,14 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
+
 import globals from "@/styles/globals.css?url";
 
 export const Route = createRootRoute({
-  loader: async () => {
-    return {};
+  loader: async (ctx) => {
+    return {
+      lang: "tr-TR",
+    };
   },
   head: ({ loaderData: {} }) => {
     return {
@@ -65,8 +68,10 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
+  const { lang } = Route.useLoaderData();
+
   return (
-    <html lang={"en"}>
+    <html lang={lang}>
       <head>
         <HeadContent />
       </head>

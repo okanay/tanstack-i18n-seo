@@ -11,98 +11,105 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as NotFoundImport } from './routes/not-found'
-import { Route as IndexImport } from './routes/index'
-import { Route as ProductIdImport } from './routes/product.$id'
+import { Route as languagesRouteImport } from './routes/(languages)/route'
+import { Route as languagesIndexImport } from './routes/(languages)/index'
+import { Route as languagesNotFoundImport } from './routes/(languages)/not-found'
 
 // Create/Update Routes
 
-const NotFoundRoute = NotFoundImport.update({
-  id: '/not-found',
-  path: '/not-found',
+const languagesRouteRoute = languagesRouteImport.update({
+  id: '/(languages)',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
+const languagesIndexRoute = languagesIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => languagesRouteRoute,
 } as any)
 
-const ProductIdRoute = ProductIdImport.update({
-  id: '/product/$id',
-  path: '/product/$id',
-  getParentRoute: () => rootRoute,
+const languagesNotFoundRoute = languagesNotFoundImport.update({
+  id: '/not-found',
+  path: '/not-found',
+  getParentRoute: () => languagesRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(languages)': {
+      id: '/(languages)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+      preLoaderRoute: typeof languagesRouteImport
       parentRoute: typeof rootRoute
     }
-    '/not-found': {
-      id: '/not-found'
+    '/(languages)/not-found': {
+      id: '/(languages)/not-found'
       path: '/not-found'
       fullPath: '/not-found'
-      preLoaderRoute: typeof NotFoundImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof languagesNotFoundImport
+      parentRoute: typeof languagesRouteImport
     }
-    '/product/$id': {
-      id: '/product/$id'
-      path: '/product/$id'
-      fullPath: '/product/$id'
-      preLoaderRoute: typeof ProductIdImport
-      parentRoute: typeof rootRoute
+    '/(languages)/': {
+      id: '/(languages)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof languagesIndexImport
+      parentRoute: typeof languagesRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface languagesRouteRouteChildren {
+  languagesNotFoundRoute: typeof languagesNotFoundRoute
+  languagesIndexRoute: typeof languagesIndexRoute
+}
+
+const languagesRouteRouteChildren: languagesRouteRouteChildren = {
+  languagesNotFoundRoute: languagesNotFoundRoute,
+  languagesIndexRoute: languagesIndexRoute,
+}
+
+const languagesRouteRouteWithChildren = languagesRouteRoute._addFileChildren(
+  languagesRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/not-found': typeof NotFoundRoute
-  '/product/$id': typeof ProductIdRoute
+  '/': typeof languagesIndexRoute
+  '/not-found': typeof languagesNotFoundRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/not-found': typeof NotFoundRoute
-  '/product/$id': typeof ProductIdRoute
+  '/not-found': typeof languagesNotFoundRoute
+  '/': typeof languagesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/not-found': typeof NotFoundRoute
-  '/product/$id': typeof ProductIdRoute
+  '/(languages)': typeof languagesRouteRouteWithChildren
+  '/(languages)/not-found': typeof languagesNotFoundRoute
+  '/(languages)/': typeof languagesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/not-found' | '/product/$id'
+  fullPaths: '/' | '/not-found'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/not-found' | '/product/$id'
-  id: '__root__' | '/' | '/not-found' | '/product/$id'
+  to: '/not-found' | '/'
+  id: '__root__' | '/(languages)' | '/(languages)/not-found' | '/(languages)/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  NotFoundRoute: typeof NotFoundRoute
-  ProductIdRoute: typeof ProductIdRoute
+  languagesRouteRoute: typeof languagesRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  NotFoundRoute: NotFoundRoute,
-  ProductIdRoute: ProductIdRoute,
+  languagesRouteRoute: languagesRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -115,19 +122,23 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/not-found",
-        "/product/$id"
+        "/(languages)"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/(languages)": {
+      "filePath": "(languages)/route.tsx",
+      "children": [
+        "/(languages)/not-found",
+        "/(languages)/"
+      ]
     },
-    "/not-found": {
-      "filePath": "not-found.tsx"
+    "/(languages)/not-found": {
+      "filePath": "(languages)/not-found.tsx",
+      "parent": "/(languages)"
     },
-    "/product/$id": {
-      "filePath": "product.$id.tsx"
+    "/(languages)/": {
+      "filePath": "(languages)/index.tsx",
+      "parent": "/(languages)"
     }
   }
 }
