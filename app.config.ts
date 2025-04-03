@@ -7,6 +7,7 @@ dotenv.config();
 
 export default defineConfig({
   server: {
+    compressPublicAssets: true,
     preset: process.env.REACT_PRESET,
     routeRules: {
       "/robots.txt": {

@@ -22,28 +22,24 @@ export const Image = ({
   const [imageState, setImageState] = useState<ImageState>("idle");
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  console.log("run");
 
   useEffect(() => {
-    if (!priority) {
+    if (!priority && imgRef.current) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             setIsInView(true);
             setImageState("loading");
+            // Görüldükten sonra direkt observer'ı temizle
+            observer.disconnect();
           }
         },
         { threshold: 0.1, rootMargin: "50px" },
       );
 
-      if (imgRef.current) {
-        observer.observe(imgRef.current);
-      }
-
-      return () => {
-        if (imgRef.current) {
-          observer.unobserve(imgRef.current);
-        }
-      };
+      observer.observe(imgRef.current);
+      return () => observer.disconnect();
     } else {
       setIsInView(true);
       setImageState("loading");

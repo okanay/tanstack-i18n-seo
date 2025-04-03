@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "bunx --bun vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "bunx --bun vinxi start"
   },
   "keywords": [],
   "author": "",

@@ -37,7 +37,7 @@ function RouteComponent() {
         src="https://images.project-test.info/10.webp"
         placeholderSrc="https://images.project-test.info/10-blur.webp"
         alt="Dummy Image"
-        className="size-[440px] object-cover"
+        className="aspect-auto max-h-[320px] object-cover"
       />
       <Link
         className="w-fit rounded border border-gray-200 bg-gray-100 px-4 py-2 font-medium transition-colors duration-300 hover:opacity-75"
