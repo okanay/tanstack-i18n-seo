@@ -2,6 +2,7 @@ import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react
 import { seoTranslations } from "@/i18n/languages";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLanguage } from "@/i18n/use-language";
 
 export const Route = createFileRoute("/$lang/not-found")({
   loader: async ({ params }) => {
@@ -27,25 +28,29 @@ export const Route = createFileRoute("/$lang/not-found")({
 
 export function DefaultNotFound() {
   const { t } = useTranslation();
+  const { language } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (!location.pathname.includes("not-found")) {
-      navigate({ to: "not-found" });
+    const expectedPath = `/${language}/not-found`;
+    const isExpectedPath = location.pathname === expectedPath;
+
+    if (!isExpectedPath) {
+      navigate({ href: "/not-found" });
     }
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
-      <h1 className="text-6xl font-bold text-gray-800 mb-4">404</h1>
-      <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
+      <h1 className="mb-4 text-6xl font-bold text-gray-800">404</h1>
+      <h2 className="mb-6 text-2xl font-semibold text-gray-700">
         {t("notFoundTitle")}
       </h2>
-      <p className="text-gray-600 mb-8 max-w-md">{t("notFoundDescription")}</p>
+      <p className="mb-8 max-w-md text-gray-600">{t("notFoundDescription")}</p>
       <Link
         to={`/`}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+        className="rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
       >
         {t("backToHome")}
       </Link>
