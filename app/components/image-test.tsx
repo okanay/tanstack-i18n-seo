@@ -66,24 +66,30 @@ export const ImageTest = () => {
                 Standard Image (debug on):
               </p>
               <Image
-                src="https://images.project-test.info/10.webp"
-                placeholderSrc="https://images.project-test.info/10-blur.webp"
+                debug={true}
+                priority={false}
+                loading="lazy"
+                placeholderSrc="https://images.project-test.info/8-blur.webp"
+                src="https://images.project-test.info/8.webp"
                 alt="Test Image 1"
                 className="aspect-auto max-h-[200px] w-full rounded object-cover"
-                debug={true}
               />
             </div>
 
             {/* Image with priority enabled */}
             <div>
               <p className="mb-2 text-sm font-medium text-gray-700">
-                Priority Image (priority=true):
+                Priority Image (priority=true): This image will be loaded with
+                high priority, bypassing the placeholder image and directly
+                downloading the main image for faster display.
               </p>
               <Image
-                src="https://images.project-test.info/11.webp"
-                placeholderSrc="https://images.project-test.info/11-blur.webp"
+                debug={true}
+                priority={false}
+                loading="lazy"
+                placeholderSrc="https://images.project-test.info/5-blur.webp"
+                src="https://images.project-test.info/5.webp"
                 alt="Test Image 2"
-                priority={true}
                 className="aspect-auto max-h-[200px] w-full rounded object-cover"
               />
             </div>

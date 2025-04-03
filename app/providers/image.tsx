@@ -1,3 +1,4 @@
+// app/providers/image-provider.tsx
 import React, { createContext, useContext, useState } from "react";
 
 interface ImageContextType {
@@ -11,10 +12,10 @@ const ImageContext = createContext<ImageContextType | undefined>(undefined);
 export const ImageProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  // Set to track loaded images
+  // Yüklenen görselleri takip eden set
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
 
-  // Function to call when an image is loaded
+  // Görsel yüklendiğinde çağrılacak fonksiyon
   const markAsLoaded = (src: string) => {
     setLoadedImages((prev) => {
       const newSet = new Set(prev);
@@ -23,7 +24,7 @@ export const ImageProvider: React.FC<React.PropsWithChildren<{}>> = ({
     });
   };
 
-  // Function to check if an image is loaded
+  // Görselin yüklenip yüklenmediğini kontrol eden fonksiyon
   const isLoaded = (src: string) => {
     return loadedImages.has(src);
   };
@@ -41,7 +42,7 @@ export const ImageProvider: React.FC<React.PropsWithChildren<{}>> = ({
   );
 };
 
-// For usage as a hook
+// Hook olarak kullanım için
 export const useImageContext = () => {
   const context = useContext(ImageContext);
   if (context === undefined) {

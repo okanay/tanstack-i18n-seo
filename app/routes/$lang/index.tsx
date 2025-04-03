@@ -40,6 +40,16 @@ function RouteComponent() {
       >
         Not Found Blog
       </Link>
+      <div className="h-[100vh]" />
+      <Image
+        debug={true}
+        priority={false}
+        loading="lazy"
+        placeholderSrc="https://images.project-test.info/5-blur.webp"
+        src="https://images.project-test.info/5.webp"
+        alt="Test Image 2"
+        className="aspect-auto max-h-[200px] w-full rounded object-cover"
+      />
     </main>
   );
 }

@@ -24,23 +24,23 @@ export const Image = ({
 }: ImageProps) => {
   const { isLoaded, markAsLoaded } = useImageContext();
 
-  // Set initial state for images loaded from cache
+  // Önbellekten yüklenen görseller için ilk state'i belirle
   const cachedImage = isLoaded(src);
 
-  // Image state
+  // Görsel durumu state'i
   const [imageState, setImageState] = useState<ImageState>(
     cachedImage ? "loaded" : "idle",
   );
 
-  // Image visibility state
+  // Görsel görünür durumu
   const [isInView, setIsInView] = useState(cachedImage || priority);
 
-  // References
+  // Referanslar
   const imgRef = useRef<HTMLImageElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const hasSetupObserver = useRef(false);
 
-  // Debug logging function, using useCallback to remove from dependency array
+  // Debug loglama fonksiyonu, bağımlılık dizisinden çıkarmak için useCallback ile
   const logDebug = useCallback(
     (message: string) => {
       if (debug) {
@@ -50,41 +50,41 @@ export const Image = ({
     [debug, src],
   );
 
-  // Function called when the image is loaded
+  // Görsel yüklendiğinde çağrılan fonksiyon
   const handleImageLoad = useCallback(() => {
-    logDebug("Loading complete");
+    logDebug("Yükleme tamamlandı");
     setImageState("loaded");
     markAsLoaded(src);
     onLoadingComplete?.();
   }, [logDebug, markAsLoaded, src, onLoadingComplete]);
 
-  // Function called when the image fails to load
+  // Görsel hata verdiğinde çağrılan fonksiyon
   const handleImageError = useCallback(() => {
-    logDebug("Loading ERROR");
+    logDebug("Yükleme HATASI");
     setImageState("error");
   }, [logDebug]);
 
-  // On initial render and for priority images
+  // İlk render işleminde ve öncelikli görseller için
   useEffect(() => {
-    // If the image is in the cache
+    // Eğer görsel önbellekte varsa
     if (cachedImage) {
-      logDebug("Loaded from cache");
+      logDebug("Önbellekten yüklendi");
       setImageState("loaded");
       setIsInView(true);
       return;
     }
 
-    // If the image is a priority or not in the cache
+    // Eğer öncelikli görsel ise veya önbellekte yoksa
     if (priority) {
-      logDebug("Priority image, loading immediately");
+      logDebug("Öncelikli görsel, hemen yüklenecek");
       setIsInView(true);
       setImageState("loading");
     }
   }, [cachedImage, priority, logDebug]);
 
-  // IntersectionObserver setup (for non-priority images)
+  // IntersectionObserver kurulumu (öncelikli olmayan görseller için)
   useEffect(() => {
-    // If the image is priority, in cache, or observer is already set up
+    // Eğer görsel öncelikli, önbellekte veya observer zaten kurulmuşsa
     if (
       priority ||
       cachedImage ||
@@ -94,21 +94,21 @@ export const Image = ({
       return;
     }
 
-    // Mark that the observer has been set up once
+    // Observer'ı bir kez kurduğumuzu işaretleyelim
     hasSetupObserver.current = true;
 
-    logDebug("Starting IntersectionObserver");
+    logDebug("IntersectionObserver başlatılıyor");
 
-    // Create the observer
+    // Observer'ı oluştur
     observerRef.current = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting) {
-          logDebug("Became visible in viewport");
+          logDebug("Görüntü alanında görünür oldu");
           setIsInView(true);
           setImageState("loading");
 
-          // Remove the observer after the image becomes visible
+          // Görsel göründükten sonra observer'ı kaldır
           if (observerRef.current) {
             observerRef.current.disconnect();
             observerRef.current = null;
@@ -118,10 +118,10 @@ export const Image = ({
       { threshold: 0.1, rootMargin: "50px" },
     );
 
-    // Start observing the image
+    // Görseli gözlemeye başla
     observerRef.current.observe(imgRef.current);
 
-    // Cleanup function
+    // Cleanup fonksiyonu
     return () => {
       if (observerRef.current) {
         observerRef.current.disconnect();
@@ -130,45 +130,24 @@ export const Image = ({
     };
   }, [priority, cachedImage, logDebug]);
 
-  // State logging for debug purposes only
+  // Sadece debug amaçlı durum loglaması
   useEffect(() => {
     logDebug(
-      `State: state=${imageState}, inView=${isInView}, cached=${cachedImage}`,
+      `Durum: state=${imageState}, inView=${isInView}, cached=${cachedImage}`,
     );
   }, [imageState, isInView, cachedImage, logDebug]);
 
   return (
-    <figure
-      role="img"
+    <img
+      ref={imgRef}
       aria-busy={imageState !== "loaded"}
-      className={twMerge(
-        "relative h-fit w-fit overflow-hidden transition-all duration-500",
-        imageState !== "loaded" && "blur-[2px]",
-      )}
-    >
-      <img
-        ref={imgRef}
-        className={twMerge("transition-opacity duration-500", className)}
-        src={isInView || priority ? src : placeholderSrc}
-        alt={alt}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        onLoad={handleImageLoad}
-        onError={handleImageError}
-        {...props}
-      />
-
-      {debug && imageState === "loading" && (
-        <div className="bg-opacity-20 absolute inset-0 flex items-center justify-center bg-black text-xs text-white">
-          Loading...
-        </div>
-      )}
-
-      {debug && imageState === "error" && (
-        <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center bg-red-500 text-xs text-white">
-          Error!
-        </div>
-      )}
-    </figure>
+      src={isInView || priority ? src : placeholderSrc}
+      alt={alt}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      onLoad={handleImageLoad}
+      onError={handleImageError}
+      {...props}
+    />
   );
 };
