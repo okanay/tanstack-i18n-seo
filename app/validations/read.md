@@ -1,0 +1,1 @@
+## Burada validation işlemlerini saklayabilirsin.
