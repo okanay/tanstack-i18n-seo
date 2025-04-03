@@ -67,7 +67,10 @@ export const Route = createRootRoute({
       ],
       links: [
         {
-          rel: "stylesheet",
+          rel: "preload stylesheet",
+          as: "style",
+          type: "text/css",
+          crossOrigin: "anonymous",
           href: globals,
         },
         {
