@@ -72,7 +72,9 @@ export const ImageTest = () => {
                 placeholderSrc="https://images.project-test.info/8-blur.webp"
                 src="https://images.project-test.info/8.webp"
                 alt="Test Image 1"
-                className="aspect-auto max-h-[200px] w-full rounded object-cover"
+                width={256}
+                height={256}
+                className="object-cover"
               />
             </div>
 
@@ -90,7 +92,9 @@ export const ImageTest = () => {
                 placeholderSrc="https://images.project-test.info/5-blur.webp"
                 src="https://images.project-test.info/5.webp"
                 alt="Test Image 2"
-                className="aspect-auto max-h-[200px] w-full rounded object-cover"
+                width={256}
+                height={256}
+                className="object-cover"
               />
             </div>
           </div>
