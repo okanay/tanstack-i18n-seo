@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "Fellix";
+  font-style: normal;
+  font-weight: 800;
+  src: url("extra-bold.woff2") format("woff2");
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Fellix";
+  font-style: normal;
+  font-weight: 700;
+  src: url("bold.woff2") format("woff2");
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Fellix";
+  font-style: normal;
+  font-weight: 600;
+  src: url("semibold.woff2") format("woff2");
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Fellix";
+  font-style: normal;
+  font-weight: 500;
+  src: url("medium.woff2") format("woff2");
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Fellix";
+  font-style: normal;
+  font-weight: 400;
+  src: url("regular.woff2") format("woff2");
+  font-display: fallback;
+}
+
+.font-custom-sans {
+  font-family: "Fellix", "Helvetica Neue", "IBM Plex Sans", "sans-serif";
+}

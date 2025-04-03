@@ -1,0 +1,5 @@
+@import "tailwindcss" source("../../");
+
+@theme {
+  --font-custom: "Fellix", "Helvetica Neue", "IBM Plex Sans", "sans-serif";
+}
