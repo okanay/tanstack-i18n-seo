@@ -1,7 +1,11 @@
 {
-  "title": "Welcome to React i18n",
-  "currentLanguage": "English",
-  "notFoundTitle": "Page Not Found",
-  "notFoundDescription": "The page you are looking for does not exist or has been moved.",
-  "backToHome": "Back to Home"
+  "common": {},
+  "index": {
+    "title": "Welcome to the i18n and TanStack React Project in English"
+  },
+  "not-found": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "link": "Back to Home"
+  }
 }
