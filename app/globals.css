@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-custom: "Fellix", "Helvetica Neue", "IBM Plex Sans", "sans-serif";
+  --font-custom-sans: "Fellix", "Helvetica Neue", "IBM Plex Sans", "sans-serif";
 }
 
 * {
-  @apply font-custom;
+  @apply font-custom-sans;
 }
 
 button {

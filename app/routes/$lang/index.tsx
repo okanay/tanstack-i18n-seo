@@ -12,7 +12,7 @@ function RouteComponent() {
   const { t } = useTranslation();
 
   const handleDummyToast = () => {
-    toast("Here is your toast.");
+    toast(t("index.title"));
   };
 
   return (
@@ -27,15 +27,22 @@ function RouteComponent() {
       </button>
       <Link
         className="w-fit rounded border border-gray-200 bg-gray-100 px-4 py-2 font-medium transition-colors duration-300 hover:opacity-75"
-        to="/blog"
+        to="/blog/1"
       >
         Blog Page
       </Link>
+      <img
+        src="/images/dummy.webp"
+        alt="Dummy Image"
+        loading="lazy"
+        fetchPriority="low"
+        className="size-[440px] object-cover"
+      />
       <Link
         className="w-fit rounded border border-gray-200 bg-gray-100 px-4 py-2 font-medium transition-colors duration-300 hover:opacity-75"
-        to="/not-found"
+        to="/blog/0"
       >
-        Not Found Page
+        Not Found Blog
       </Link>
     </main>
   );
