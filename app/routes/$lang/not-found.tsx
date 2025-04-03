@@ -1,7 +1,8 @@
-import { createFileRoute, Link, useLayoutEffect, useLocation, useNavigate } from "@tanstack/react-router"; // prettier-ignore
+import { createFileRoute, useLayoutEffect, useLocation, useNavigate } from "@tanstack/react-router"; // prettier-ignore
 import { seoTranslations } from "@/i18n/languages";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/use-language";
+import { Link } from "@/i18n/link";
 
 export const Route = createFileRoute("/$lang/not-found")({
   loader: async ({ params }) => {
@@ -27,18 +28,18 @@ export const Route = createFileRoute("/$lang/not-found")({
 
 export function DefaultNotFound() {
   const { t } = useTranslation();
-  const { language } = useLanguage();
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const { language } = useLanguage();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
-  useLayoutEffect(() => {
-    const expectedPath = `/${language}/not-found`;
-    const isExpectedPath = location.pathname === expectedPath;
+  // useLayoutEffect(() => {
+  //   const expectedPath = `/${language}/not-found`;
+  //   const isExpectedPath = location.pathname === expectedPath;
 
-    if (!isExpectedPath) {
-      navigate({ to: "/not-found" });
-    }
-  }, []);
+  //   if (!isExpectedPath) {
+  //     navigate({ to: "/not-found" });
+  //   }
+  // }, []);
 
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
@@ -49,6 +50,7 @@ export function DefaultNotFound() {
       <p className="mb-8 max-w-md text-gray-600">{t("notFoundDescription")}</p>
       <Link
         to={`/`}
+        preload={false}
         className="rounded bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
       >
         {t("backToHome")}
