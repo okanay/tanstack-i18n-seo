@@ -1,13 +1,8 @@
 // app/i18n/index.ts
-import {
-  DEFAULT_LANGUAGE,
-  FALLBACK_LANGUAGE,
-  I18N_COOKIE_NAME,
-  I18N_STORAGE_KEY,
-} from "./config";
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import { resources } from "./languages";
+import { DEFAULT_LANGUAGE, FALLBACK_LANGUAGE, I18N_COOKIE_NAME, I18N_STORAGE_KEY } from "./config"; // prettier-ignore
+import { initReactI18next } from "react-i18next";
 
 const i18nConfig = (initialLanguage: Language = DEFAULT_LANGUAGE) => {
   if (!i18n.isInitialized) {
@@ -21,7 +16,7 @@ const i18nConfig = (initialLanguage: Language = DEFAULT_LANGUAGE) => {
       react: {
         useSuspense: false,
       },
-      ns: ["translation", "seo"],
+      ns: ["translation"],
       defaultNS: "translation",
       detection: {
         lookupCookie: I18N_COOKIE_NAME,

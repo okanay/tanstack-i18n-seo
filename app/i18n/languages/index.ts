@@ -4,13 +4,13 @@ import translationTr from "./tr/translation.json";
 import seoEn from "./en/seo.json";
 import seoTr from "./tr/seo.json";
 
-// Çeviri dosyaları
+// Translation Files.
 export const translations = {
   en: translationEn,
   tr: translationTr,
 };
 
-// SEO dosyaları
+// Static SEO Files.
 export const seoTranslations = {
   en: seoEn,
   tr: seoTr,
@@ -20,10 +20,8 @@ export const seoTranslations = {
 export const resources = {
   en: {
     translation: translationEn,
-    seo: seoEn,
   },
   tr: {
     translation: translationTr,
-    seo: seoTr,
   },
 };
