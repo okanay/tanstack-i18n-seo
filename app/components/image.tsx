@@ -1,5 +1,7 @@
+// app/components/image.tsx
 import { useState, useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { useImageContext } from "@/providers/image";
 
 type ImageState = "idle" | "loading" | "loaded" | "error";
 type ImageProps = React.ComponentProps<"img"> & {
@@ -19,19 +21,27 @@ export const Image = ({
   priority = false,
   ...props
 }: ImageProps) => {
-  const [imageState, setImageState] = useState<ImageState>("idle");
-  const [isInView, setIsInView] = useState(false);
+  const { isLoaded, markAsLoaded } = useImageContext();
+
+  const initialState = isLoaded(src) ? "loaded" : "idle";
+  const [imageState, setImageState] = useState<ImageState>(initialState);
+  const [isInView, setIsInView] = useState(isLoaded(src) || priority);
   const imgRef = useRef<HTMLImageElement | null>(null);
-  console.log("run");
+  const hasObserved = useRef(false);
 
   useEffect(() => {
+    if (!isLoaded(src) || hasObserved.current) {
+      return;
+    }
+
     if (!priority && imgRef.current) {
+      hasObserved.current = true;
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             setIsInView(true);
             setImageState("loading");
-            // Görüldükten sonra direkt observer'ı temizle
             observer.disconnect();
           }
         },
@@ -42,9 +52,16 @@ export const Image = ({
       return () => observer.disconnect();
     } else {
       setIsInView(true);
-      setImageState("loading");
+      setImageState(initialState === "loaded" ? "loaded" : "loading");
     }
-  }, [priority]);
+  }, [priority, src, initialState, isLoaded]);
+
+  const handleImageLoad = () => {
+    setImageState("loaded");
+    // Görsel yüklendiğini context'e bildir
+    markAsLoaded(src);
+    onLoadingComplete?.();
+  };
 
   return (
     <figure
@@ -62,10 +79,7 @@ export const Image = ({
         alt={alt}
         loading={priority ? "eager" : "lazy"}
         decoding="async"
-        onLoad={() => {
-          setImageState("loaded");
-          onLoadingComplete?.();
-        }}
+        onLoad={handleImageLoad}
         onError={() => setImageState("error")}
         {...props}
       />

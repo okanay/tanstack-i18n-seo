@@ -2,7 +2,7 @@
   font-family: "Fellix";
   font-style: normal;
   font-weight: 800;
-  src: url("extra-bold.woff2") format("woff2");
+  src: url("/fonts/custom/extra-bold.woff2") format("woff2");
   font-display: fallback;
 }
 
@@ -10,7 +10,7 @@
   font-family: "Fellix";
   font-style: normal;
   font-weight: 700;
-  src: url("bold.woff2") format("woff2");
+  src: url("/fonts/custom/bold.woff2") format("woff2");
   font-display: fallback;
 }
 
@@ -18,7 +18,7 @@
   font-family: "Fellix";
   font-style: normal;
   font-weight: 600;
-  src: url("semibold.woff2") format("woff2");
+  src: url("/fonts/custom/semibold.woff2") format("woff2");
   font-display: fallback;
 }
 
@@ -26,7 +26,7 @@
   font-family: "Fellix";
   font-style: normal;
   font-weight: 500;
-  src: url("medium.woff2") format("woff2");
+  src: url("/fonts/custom/medium.woff2") format("woff2");
   font-display: fallback;
 }
 
@@ -34,7 +34,7 @@
   font-family: "Fellix";
   font-style: normal;
   font-weight: 400;
-  src: url("regular.woff2") format("woff2");
+  src: url("/fonts/custom/regular.woff2") format("woff2");
   font-display: fallback;
 }
 

@@ -1,1 +1,0 @@
-## Burada components işlemlerini saklayabilirsin.
