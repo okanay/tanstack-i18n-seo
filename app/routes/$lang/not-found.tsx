@@ -1,6 +1,5 @@
-import { createFileRoute, Link, useLocation, useNavigate } from "@tanstack/react-router"; // prettier-ignore
+import { createFileRoute, Link, useLayoutEffect, useLocation, useNavigate } from "@tanstack/react-router"; // prettier-ignore
 import { seoTranslations } from "@/i18n/languages";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/i18n/use-language";
 
@@ -32,7 +31,7 @@ export function DefaultNotFound() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const expectedPath = `/${language}/not-found`;
     const isExpectedPath = location.pathname === expectedPath;
 
