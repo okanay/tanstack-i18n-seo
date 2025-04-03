@@ -3,7 +3,7 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/config";
 import LanguageProvider from "@/i18n/provider";
 import { HeadContent, Outlet, Scripts, createRootRoute, redirect } from "@tanstack/react-router"; // prettier-ignore
 
-import globals from "@/assets/styles/globals.css?url";
+import globals from "@/globals.css?url";
 
 export const Route = createRootRoute({
   loader: async (ctx) => {
