@@ -4,6 +4,7 @@ import LanguageProvider from "@/i18n/provider";
 import { HeadContent, Outlet, Scripts, createRootRoute, redirect } from "@tanstack/react-router"; // prettier-ignore
 
 import globals from "@/globals.css?url";
+import { RootProviders } from "@/providers";
 
 export const Route = createRootRoute({
   loader: async (ctx) => {
@@ -107,7 +108,9 @@ function RootComponent() {
   return (
     <RootDocument>
       <LanguageProvider serverLanguage={lang}>
-        <Outlet />
+        <RootProviders>
+          <Outlet />
+        </RootProviders>
       </LanguageProvider>
     </RootDocument>
   );

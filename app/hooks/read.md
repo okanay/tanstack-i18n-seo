@@ -1,1 +1,0 @@
-## Burada hooks işlemlerini saklayabilirsin.

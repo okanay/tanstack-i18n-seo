@@ -1,1 +1,0 @@
-## Burada providers işlemlerini saklayabilirsin.

@@ -22,16 +22,22 @@
     "i18next": "^24.2.3",
     "js-cookie": "^3.0.5",
     "postcss": "^8.5.3",
-    "react": "^19.0.0-rc.1",
-    "react-dom": "^19.0.0-rc.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "react-i18next": "^15.4.1",
+    "tailwind-merge": "^3.1.0",
     "tailwindcss": "^4.0.17",
-    "vinxi": "^0.5.3"
+    "vinxi": "^0.5.3",
+    "zod": "^3.24.2",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.8.2",
     "vite-tsconfig-paths": "^5.1.4"
   }
