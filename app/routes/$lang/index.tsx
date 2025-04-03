@@ -40,15 +40,15 @@ function RouteComponent() {
       >
         Not Found Blog
       </Link>
-      <div className="h-[100vh]" />
+      <div className="h-[50vh]" />
       <Image
-        debug={true}
         priority={false}
         loading="lazy"
         placeholderSrc="https://images.project-test.info/5-blur.webp"
         src="https://images.project-test.info/5.webp"
         alt="Test Image 2"
-        className="aspect-auto max-h-[200px] w-full rounded object-cover"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="object-cover"
       />
     </main>
   );

@@ -20,14 +20,35 @@ export const Route = createFileRoute("/$lang")({
       ],
       links: [
         {
+          rel: "manifest",
+          href: "/site.webmanifest",
+          color: "#ffffff",
+        },
+        {
           rel: "preload stylesheet",
           as: "style",
           href: `/fonts/custom/font.css`,
         },
         {
-          rel: "manifest",
-          href: "/site.webmanifest",
-          color: "#ffffff",
+          rel: "preload",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
+          href: `/fonts/custom/regular.woff2`,
+        },
+        {
+          rel: "preload",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
+          href: `/fonts/custom/medium.woff2`,
+        },
+        {
+          rel: "preload",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
+          href: `/fonts/custom/bold.woff2`,
         },
       ],
     };
