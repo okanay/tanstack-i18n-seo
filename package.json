@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
+    "dev": "bunx --bun vinxi dev",
     "build": "vinxi build",
     "start": "vinxi start"
   },
