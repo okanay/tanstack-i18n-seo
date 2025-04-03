@@ -29,6 +29,7 @@ export const Route = createFileRoute("/$lang")({
           as: "font",
           type: "font/woff2",
           crossOrigin: "anonymous",
+          importance: "low",
         },
         {
           rel: "preload",
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/$lang")({
           as: "font",
           type: "font/woff2",
           crossOrigin: "anonymous",
+          importance: "low",
         },
         {
           rel: "preload",
@@ -43,6 +45,7 @@ export const Route = createFileRoute("/$lang")({
           as: "font",
           type: "font/woff2",
           crossOrigin: "anonymous",
+          importance: "low",
         },
         {
           rel: "preload",
@@ -50,6 +53,7 @@ export const Route = createFileRoute("/$lang")({
           as: "font",
           type: "font/woff2",
           crossOrigin: "anonymous",
+          importance: "low",
         },
         {
           rel: "preload",
@@ -57,6 +61,7 @@ export const Route = createFileRoute("/$lang")({
           as: "font",
           type: "font/woff2",
           crossOrigin: "anonymous",
+          importance: "low",
         },
         {
           rel: "manifest",
