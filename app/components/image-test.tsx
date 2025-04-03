@@ -66,7 +66,7 @@ export const ImageTest = () => {
                 Standard Image (debug on):
               </p>
               <Image
-                debug={true}
+                debug={false}
                 priority={false}
                 loading="lazy"
                 placeholderSrc="https://images.project-test.info/8-blur.webp"
@@ -84,7 +84,7 @@ export const ImageTest = () => {
                 downloading the main image for faster display.
               </p>
               <Image
-                debug={true}
+                debug={false}
                 priority={false}
                 loading="lazy"
                 placeholderSrc="https://images.project-test.info/5-blur.webp"

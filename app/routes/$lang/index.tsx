@@ -47,8 +47,9 @@ function RouteComponent() {
         placeholderSrc="https://images.project-test.info/5-blur.webp"
         src="https://images.project-test.info/5.webp"
         alt="Test Image 2"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="object-cover"
+        width={256}
+        height={256}
+        className="size-64 object-cover"
       />
     </main>
   );
