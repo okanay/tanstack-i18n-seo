@@ -1,8 +1,8 @@
 import { detectLanguage } from "@/i18n/action";
 import { SUPPORTED_LANGUAGES } from "@/i18n/config";
-import { seoTranslations } from "@/i18n/languages";
 import LanguageProvider from "@/i18n/provider";
 import { HeadContent, Outlet, Scripts, createRootRoute, redirect } from "@tanstack/react-router"; // prettier-ignore
+
 import globals from "@/assets/styles/globals.css?url";
 
 export const Route = createRootRoute({
@@ -33,7 +33,6 @@ export const Route = createRootRoute({
           to: `/${detectedLanguage}/${restOfPath}`,
         });
       }
-
       return {
         lang: detectedLanguage,
       };
@@ -44,26 +43,8 @@ export const Route = createRootRoute({
       };
     }
   },
-  head: ({ loaderData: { lang } }) => {
-    const seoData = seoTranslations[lang];
-
+  head: () => {
     return {
-      links: [
-        {
-          rel: "stylesheet",
-          href: globals,
-        },
-        {
-          rel: "sitemap",
-          type: "application/xml",
-          title: "sitemap",
-          href: `/api/sitemap`,
-        },
-        {
-          rel: "icon",
-          href: "/favicon.ico",
-        },
-      ],
       meta: [
         {
           charSet: "utf-8",
@@ -82,12 +63,21 @@ export const Route = createRootRoute({
           media: "(prefers-color-scheme: dark)",
           content: "#000000",
         },
+      ],
+      links: [
         {
-          title: seoData.root.title,
+          rel: "stylesheet",
+          href: globals,
         },
         {
-          name: "description",
-          content: seoData.root.description,
+          rel: "icon",
+          href: "/favicon.ico",
+        },
+        {
+          rel: "sitemap",
+          type: "application/xml",
+          title: "sitemap",
+          href: `/api/sitemap`,
         },
       ],
     };

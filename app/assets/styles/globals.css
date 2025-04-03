@@ -3,3 +3,7 @@
 @theme {
   --font-custom: "Fellix", "Helvetica Neue", "IBM Plex Sans", "sans-serif";
 }
+
+* {
+  @apply font-custom;
+}
