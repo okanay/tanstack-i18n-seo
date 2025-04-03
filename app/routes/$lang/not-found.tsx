@@ -36,7 +36,7 @@ export function DefaultNotFound() {
     const isExpectedPath = location.pathname === expectedPath;
 
     if (!isExpectedPath) {
-      navigate({ href: "/not-found" });
+      navigate({ to: "/not-found" });
     }
   }, []);
 
